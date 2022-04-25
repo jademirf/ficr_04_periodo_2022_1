@@ -18,11 +18,20 @@ app.post('/signin', (req, res)=>{
   // compara se o usuário existe e se a senha informada é dele
   const fakeUser = {
     login: 'desmennyellysson',
-    pass: 'desmenny123'
+    pass: md5('desmenny123')
   }
+
+  const jwtPass =  md5('senhaSecreta')
+console.log(jwtPass)
   if (user.login === fakeUser.login) {
-    if (md5(user.pass) === md5(fakeUser.pass)) {
-      res.json({message: 'usuário logado com sucesso'})
+    if (md5(user.pass) === fakeUser.pass) {
+      const jwtPayload = {
+        login: 'Desmennyellysson',
+        role: 'Manager',
+        idNumber: 'ABC-1235'
+      }
+      const token = jwt.sign(jwtPayload, jwtPass)
+      res.json({ message: 'usuário logado com sucesso', token })
     } else {
       res.status(401).json({message: 'login ou senha incorreto!'})
     }
