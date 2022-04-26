@@ -41,3 +41,22 @@ exports.list = (req, res) => {
     ]
     res.json(fakeUsersArray)
 }
+
+exports.show = (req, res) => {
+  const { userId } = req.params
+
+  const token = req.headers.authorization
+  try{
+    const decoded = jwt.verify(token, process.env.JWT_KEY)
+    const fakeUser = {
+        id: 123,
+        name: 'Desmennyellysson Jerry',
+        email: 'desmeny@gmail.com'
+    }
+    res.json({message: 'Ok, deu certo!', fakeUser})
+  } catch (err) {
+    console.log(err)
+    res.status(401).json({ message: 'Usuário não authorizado' })
+  }
+
+}
