@@ -1,7 +1,8 @@
 // Carrega o pacote express
+require('dotenv').config()
 const express = require('express')
 const app = express() // inicia um objeto app do tipo express
-const port = 3000 // define a porta que será utilizada pelo serviço
+const port = process.env.PORT || 3000 // define a porta que será utilizada pelo serviço
 const routes = require('./src/routes')
 
 
