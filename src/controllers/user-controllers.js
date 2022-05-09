@@ -3,12 +3,13 @@ const md5 = require("crypto-md5")
 const User = require("../models/users")
 
 exports.createUser = async (req, res) => {
+  const { name, email, password } = req.body
   try {
     const newUser = await User.create(
       {
-        name: "Desmennyellysson Jerry",
-        email: "desmeny@gmail.com",
-        password: "senhaSuperSecreta123"
+        name,
+        email,
+        password: md5(password)
       }
     )
     res.json(newUser)
