@@ -1,5 +1,22 @@
 const jwt = require('jsonwebtoken') // cria um objeto jwt
 const md5 = require("crypto-md5")
+const User = require("../models/users")
+
+exports.createUser = async (req, res) => {
+  try {
+    const newUser = await User.create(
+      {
+        name: "Desmennyellysson Jerry",
+        email: "desmeny@gmail.com",
+        password: "senhaSuperSecreta123"
+      }
+    )
+    res.json(newUser)
+  } catch (err) {
+    console.log("Deu ruim...", err)
+    res.send(err)
+  }
+}
 
 exports.signin = (req, res)=>{
     const {user} = req.body // recebe as informações da requisição

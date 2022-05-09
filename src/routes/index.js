@@ -8,6 +8,7 @@ module.exports = (app) => {
     
     app.route('/users')
         .get(userControllers.list)
+        .post(userControllers.createUser)
     
     app.route('/users/:userId')
         .get(userControllers.show)
