@@ -19,20 +19,23 @@ exports.createUser = async (req, res) => {
   }
 }
 
-exports.signin = (req, res)=>{
+exports.signin = async (req, res)=>{
     const {user} = req.body // recebe as informações da requisição
     // compara se o usuário existe e se a senha informada é dele
-    const fakeUser = {
-      login: 'desmennyellysson',
-      pass: md5('desmenny123')
-    }
+    const user_bd = await User.findOne({
+      where: {
+        email: user.login
+      }
+    })
   
-    if (user.login === fakeUser.login) {
-      if (md5(user.pass) === fakeUser.pass) {
+    if (user.login === user_bd.email) {
+      console.log("Login correto!")
+      if (md5(user.pass) === user_bd.password) {
         const jwtPayload = {
-          login: 'Desmennyellysson',
+          name: user_bd.name,
+          email: user_bd.email,
           role: 'Manager',
-          idNumber: 'ABC-1235'
+          idNumber: user_bd.id
         }
         const token = jwt.sign(jwtPayload, process.env.JWT_KEY)
         res.json({ message: 'usuário logado com sucesso', token })
