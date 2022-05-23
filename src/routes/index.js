@@ -1,4 +1,4 @@
-
+const authenticate = require('../middlewares/auth')
 module.exports = (app) => {
     const userControllers = require('../controllers/user-controllers')
 
@@ -7,7 +7,7 @@ module.exports = (app) => {
     
     
     app.route('/users')
-        .get(userControllers.list)
+        .get(authenticate, userControllers.list)
         .post(userControllers.createUser)
     
     app.route('/users/:userId')
