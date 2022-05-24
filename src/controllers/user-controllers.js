@@ -47,37 +47,24 @@ exports.signin = async (req, res)=>{
     }
   }
 
-exports.list = (req, res) => {
-    const fakeUsersArray = [
-        {
-            id: 123,
-            name: 'Desmennyellysson Jerry',
-            email: 'desmeny@gmail.com'
-        },
-        {
-            id: 133,
-            name: 'Astrogildo Jerry',
-            email: 'astro@gmail.com'
-        }
-    ]
+exports.list = async (req, res) => {
+    const fakeUsersArray = await User.findAll({
+      attributes: { exclude: ['password'] }
+    })
     res.json(fakeUsersArray)
 }
 
-exports.show = (req, res) => {
+exports.show = async (req, res) => {
   const { userId } = req.params
 
-  const token = req.headers.authorization
   try{
-    const decoded = jwt.verify(token, process.env.JWT_KEY)
-    const fakeUser = {
-        id: 123,
-        name: 'Desmennyellysson Jerry',
-        email: 'desmeny@gmail.com'
-    }
-    res.json({message: 'Ok, deu certo!', fakeUser})
+    const user_bd = await User.findByPk(parseInt(userId), {
+      attributes: { exclude: ['password'] }
+    })
+    console.log(user_bd)
+    res.json({message: 'Ok, deu certo!', user: user_bd})
   } catch (err) {
     console.log(err)
-    res.status(401).json({ message: 'Usuário não authorizado' })
   }
 
 }

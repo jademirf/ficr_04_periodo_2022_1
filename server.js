@@ -2,6 +2,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express() // inicia um objeto app do tipo express
+const cors = require("cors")
 const port = process.env.PORT || 3000 // define a porta que será utilizada pelo serviço
 const routes = require('./src/routes')
 const sequelize = require("./db")
@@ -13,6 +14,7 @@ const sequelize = require("./db")
     console.error('Unable to connect to the database:', error);
   }
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
 
